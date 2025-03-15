@@ -10,6 +10,8 @@ const logger = require('morgan');
 // Import routers
 const authRouter = require('./controllers/auth');
 const testJwtRouter = require('./controllers/test-jwt');
+const workoutsRoutes = require('./routes/workouts');
+const exercisesRoutes = require('./routes/exercises');
 const usersRouter = require('./controllers/users');
 
 // Connect to MongoDB
@@ -28,6 +30,9 @@ app.use(logger('dev'));
 app.use('/auth', authRouter);
 app.use('/test-jwt', testJwtRouter);
 app.use('/users', usersRouter);
+app.use('/workouts', workoutsRoutes);
+app.use('/workouts/:workoutId/exercises', exercisesRoutes);
+
 
 // Start the server and listen on port 3000
 app.listen(3000, () => {
