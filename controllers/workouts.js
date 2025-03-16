@@ -5,8 +5,9 @@ const Workout = require('../models/workout');
 // Create a new workout
 exports.createWorkout = async (req, res) => {
   try {
-    const workout = new Workout(req.body);
-    await workout.save();
+    console.log(req.body);
+    const workout = await Workout.create(req.body);
+   
     res.status(201).json(workout);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -26,7 +27,8 @@ exports.getWorkouts = async (req, res) => {
 // Get a single workout by ID
 exports.getWorkoutById = async (req, res) => {
   try {
-    const workout = await Workout.findById(req.params.id);
+    console.log(req.params.id);
+    const workout = await Workout.findById(req.params.id).populate('exercises');
     if (!workout) return res.status(404).json({ error: 'Workout not found' });
     res.json(workout);
   } catch (err) {

@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const saltRounds = 12;
 
 const User = require('../models/user');
 
-const saltRounds = 12;
+
 
 router.post('/sign-up', async (req, res) => {
   try {
@@ -15,9 +16,10 @@ router.post('/sign-up', async (req, res) => {
       return res.status(409).json({err: 'Username already taken.'});
     }
     
+    const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
     const user = await User.create({
       username: req.body.username,
-      hashedPassword: bcrypt.hashSync(req.body.password, saltRounds)
+      hashedPassword: hashedPassword,
     });
 
     const payload = { username: user.username, _id: user._id };

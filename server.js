@@ -23,15 +23,17 @@ mongoose.connection.on('connected', () => {
 
 // Middleware
 app.use(cors());
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(logger('dev'));
+
 
 // Routes
 app.use('/auth', authRouter);
 app.use('/test-jwt', testJwtRouter);
 app.use('/users', usersRouter);
 app.use('/workouts', workoutsRoutes);
-app.use('/workouts/:workoutId/exercises', exercisesRoutes);
+app.use('/exercises', exercisesRoutes);
 
 
 // Start the server and listen on port 3000

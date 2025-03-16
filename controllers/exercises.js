@@ -1,13 +1,13 @@
 
 
 const Exercise = require('../models/exercise');
-
+const Workout = require('../models/workout');
 // Create a new exercise for a given workout
 exports.createExercise = async (req, res) => {
   try {
     // Merge request body with the workout id from URL parameters
-    const exercise = new Exercise({ ...req.body, workout: req.params.workoutId });
-    await exercise.save();
+    const exercise = await Exercise.create(req.body);
+   await Workout.findOneAndUpdate({_id: req.body.workout}, {$addToSet: {exercises: exercise._id}}, {new: true});
     res.status(201).json(exercise);
   } catch (err) {
     res.status(400).json({ error: err.message });
