@@ -42,7 +42,7 @@ exports.getExerciseById = async (req, res) => {
 exports.updateExercise = async (req, res) => {
     
   try {
-    console.log("arms", req.body);
+   
     const exercise = await Exercise.findOneAndUpdate(
       { _id: req.params.exerciseId },
       {$set: req.body},
