@@ -40,17 +40,20 @@ exports.getExerciseById = async (req, res) => {
 
 // Update an exercise by its ID
 exports.updateExercise = async (req, res) => {
+    
   try {
+    console.log("arms", req.body);
     const exercise = await Exercise.findOneAndUpdate(
-      { _id: req.params.exerciseId, workout: req.params.workoutId },
-      req.body,
-      { new: true }
+      { _id: req.params.exerciseId },
+      {$set: req.body},
+      
     );
     if (!exercise) return res.status(404).json({ error: 'Exercise not found' });
     res.json(exercise);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
+  
 };
 
 // Delete an exercise by its ID
@@ -58,7 +61,7 @@ exports.deleteExercise = async (req, res) => {
   try {
     const exercise = await Exercise.findOneAndDelete({
       _id: req.params.exerciseId,
-      workout: req.params.workoutId
+     
     });
     if (!exercise) return res.status(404).json({ error: 'Exercise not found' });
     res.json({ message: 'Exercise deleted successfully' });
