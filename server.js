@@ -24,7 +24,7 @@ mongoose.connection.on('connected', () => {
 // Middleware
 // app.use(cors());
 app.use(cors({ 
-  origin: "https://tanzie.netlify.app" || "http://localhost:5173", // Use frontend URL in production
+  origin: process.env.CLIENT_URL || "http://localhost:5173", // Use frontend URL in production
   credentials: true 
 }));
 app.use(express.urlencoded({ extended: false }));
